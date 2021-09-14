@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+     <title>HTML</title>
+     <style>
+      *{
+         margin: 0;padding: 0;border: 0;
+         box-sizing: border-box;
+      }
+      .base{
+         width: 360px; height: 360px;
+         text-align: center;background: #A5A5A5;
+      }
+      #output{
+         background: black; width: 300px;margin: 30px;
+         height: 300px; box-sizing: border-box;
+      }
+      #Score{
+         height: 20px;
+         width: 40px;
+         position: absolute;
+         left: 180px;
+         top: 15px;
+         padding-top: 3px;
+      }
+      .ext{
+         height: 105px;
+         width: 360px;
+         position: relative;
+         text-align: center;
+      }
+      .buttonBase{
+         width: 280px;
+         height: 200px;
+         background: #35385F;
+         text-align: center;
+         margin-left: 40px;
+         position: relative;
+         border-radius: 30px;
+         box-shadow: 1px 1px 5px red;
+      }
+      .b1{
+         position: absolute;
+         top: 70px;
+         left: 20px;
+      }
+      .b1:hover{
+         box-shadow: -10px 0px 2px #46E06F;
+         transition: 0.1s;
+      }   
+      .b2{
+         position: absolute;
+         top: 20px;
+         left: 100px;
+      }
+      .b2:hover{
+         box-shadow: 0px -10px 2px #46E06F;
+         transition: 0.1s;
+      }
+      .b3{
+         position: absolute;
+         bottom: 20px;
+         left: 100px;
+      }
+      .b3:hover{
+         box-shadow: 0px 10px 2px #46E06F;
+         transition: 0.1s;
+      }
+      .b4{
+         position: absolute;
+         top: 70px;
+         right: 20px;
+      }
+      .b4:hover{
+         box-shadow: 10px 0px 2px #46E06F;
+         transition: 0.1s;
+      }
+      h3{
+         height: 60px; width: 80px;
+         font-weight: bold;
+         font-size: 1rem;background: #8EE046;
+         border: 1px solid white;
+         border-radius: 100px;
+         box-shadow: 1px 1px 5px black;
+      }
+      h3:hover{
+         background: #FC5CFF;
+         transition: 0.2s;
+      }
+      .bb{
+         background: #FF278C;
+         height: 30px;
+         width: 80px;
+         border-radius: 7px;
+         position: absolute;
+         border: solid #680433 2px;
+         box-shadow: 1px 1px 8px #35031A;
+         left: 20px;
+         top: 10px;
+      }
+      .bb:hover{
+         box-shadow: 2px 2px 20px #35031A;
+      }
+       .dd{
+       background: #FF278C;
+       height: 30px;
+       width: 80px;
+       float: right;
+       border-radius: 7px;
+       border: solid #680433 2px;
+       position: absolute;
+       box-shadow: 1px 1px 8px #35031A;
+       right: 20px;
+       top: 10px;
+       font-size: 1rem;
+       padding: 2px;
+       }
+       .dd:hover{
+       box-shadow: 2px 2px 20px #35031A;
+       }
+       P{
+          height: 20px;
+          width: 40px;
+          position: absolute;
+          left: 148px;
+          top: 15px;
+          color: black;
+       }
+  
+     </style>
+</head>
+<body>
+   <div class="base"><canvas id="output"></canvas></div>
+   <div class="ext">
+      <h2 class="bb"onclick="start()" 
+       onmousedown="back.play()" controls loop>START</h2>
+      <canvas id="Score"></canvas>
+      <p>score: </p>
+      <h4 class="dd"onclick="res()">ReSTART</h4>
+      </div>
+       
+      <div class="buttonBase">
+         <h3 class="b1"onclick="left()"></h3>
+         <h3 class="b2"onclick="up()"></h3>
+         <h3 class="b3"onclick="down()"></h3>
+         <h3 class="b4"onclick="right()"></h3>
+      </div>
+   <script>
+   //----------------------START---------------------//
+   
+   
+   var can = document.getElementById("output");
+   var fps = can.getContext("2d");
+   var score, dir, food, balls;
+   var std = 'off';
+   var Res = 'Off';
+   let FPS = 5;
+   
+   
+   function init(){
+      dir = 'Right';
+      score = 0;
+      balls = [
+      {bx: 40, by: 40},
+      {bx: 60, by: 40},
+      {bx: 80, by: 40}
+   ];}
+   init();
+   FooD();
+            //----------------audio--------------//
+   
+            
+   var back = new Audio();
+   back.src = "back.mp3";
+   var inc = new Audio();
+   inc.src = "ringtone_5.mp3";
+   var back = new Audio();
+   back.src = "back.mp3";
+    
+   function start(){
+      std = 'on';
+      Res = 'On';
+   }
+   function res(){
+      if(Res=='On'){
+      dir = 'Right';
+      score = 0;
+      balls = [
+      {bx: 40, by: 40},
+      {bx: 60, by: 40},
+      {bx: 80, by: 40}
+      ];
+      FooD();
+   }}
+  
+   function FooD(){
+      food = {x: Math.floor(Math.random()*13),
+              y: Math.floor(Math.random()*13)};
+         for(var j=0; j<balls.length; j++){
+            var ball = balls[j];
+         if(ball.bx == food.x*20 && ball.by == food.y*10){
+            FooD();
+            
+         }
+      }
+   }
+     
+      
+   function right(){
+      if(dir != 'Left'){
+         dir = 'Right';
+      }
+   }
+   function left(){
+      if(dir != 'Right'){
+         dir = 'Left';
+      }
+   }
+   function up(){
+      if(dir != 'Down'){
+         dir = 'Up';
+      }
+   }
+   function down(){
+      if(dir != 'Up'){
+         dir = 'Down';
+      }
+   }
+
+   function add(){
+      if(dir=='Right'){
+      let lastBall = balls[balls.length-1];
+      balls.push({bx: lastBall.bx+20, by: lastBall.by});
+      }
+      if(dir=='Left'){
+      let lastBall = balls[balls.length-1];
+      balls.push({bx: lastBall.bx-20, by: lastBall.by});
+      }
+      if(dir=='Up'){
+      let lastBall = balls[balls.length-1];
+      balls.push({bx: lastBall.bx, by: lastBall.by-10});
+      }
+      if(dir=='Down'){
+      let lastBall = balls[balls.length-1];
+      balls.push({bx: lastBall.bx, by: lastBall.by+10});
+      }
+   }
+   
+   
+   function animation(){  //-----main snake-------//
+      if(std=='on'){
+      let lastBall = balls[balls.length-1];
+      fps.clearRect(0,0,300,150);
+      balls.shift();
+      add();
+      
+      if(lastBall.bx == food.x*20 
+         && lastBall.by == food.y*10){
+         add();
+         FooD();
+         score += 10;
+         FPS += 0.3;
+      }
+      for(var i = 0; i < balls.length; i++){
+         var ball = balls[i];
+         
+      if(i==balls.length-1){
+         fps.fillStyle = "#ff0000";
+         }
+      else{
+         fps.fillStyle = "#f0f000";
+         }
+         
+      if(ball.bx>280){
+            ball.bx=0;
+         }     
+      if(ball.bx<0){
+         ball.bx=280;
+         }
+      if(ball.by>140){
+            ball.by=0;
+         }
+      if(ball.by<0){
+            ball.by=140;
+         }
+      if(ball.bx==lastBall.bx && ball.by==lastBall.by 
+         && i<balls.length-3){
+         alert("Game Over And Your Score Is :" + score);
+         init();
+      }   
+         fps.fillRect(ball.bx, ball.by, 19, 9.5);
+      }}
+     
+         fps.fillStyle = "#FAFAFA";
+         fps.fillRect(food.x*20, food.y*10, 19, 9.5);
+         
+         //--------------score------------------//
+         var canv = document.getElementById("Score");
+         var fpss = canv.getContext("2d");
+         fpss.fillStyle = "#9B000E";
+         fpss.font = "100px bold";
+         fpss.clearRect(0,0,300,150);
+         fpss.fillText(score,100,100);
+   }           
+      function loop (){
+         setTimeout(loop, 1000 / FPS);
+         animation();
+      }
+      loop();
+   //-----------------------END-----------------------//
+   </script>
+</body>
+</html>
